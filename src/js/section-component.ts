@@ -1,7 +1,7 @@
 import { assignComponent as assignInputComponent } from './input-component.js';
 
 function createComponent(template: HTMLTemplateElement): HTMLElement {
-  return template.content.cloneNode(true).firstElementChild as HTMLElement;
+  return (template.content.cloneNode(true) as DocumentFragment).firstElementChild as HTMLElement;
 }
 
 export function assignSectionComponent(globalContainer: HTMLElement): void {
