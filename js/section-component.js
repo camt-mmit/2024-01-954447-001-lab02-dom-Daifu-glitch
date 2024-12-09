@@ -34,14 +34,11 @@ export function assignSectionComponent(globalContainer) {
         globalContainer.appendChild(sectionComponent);
         updateSectionNumbersAndButtons(); // Update numbers and buttons after adding
     };
+    addSection();
     // Ensure this listener is attached only once
     const addSectionButton = document.querySelector('.app-cmd-add-section');
     if (addSectionButton && !addSectionButton.hasListener) {
         addSectionButton.addEventListener('click', addSection);
         addSectionButton.hasListener = true; // Mark the button to prevent duplicate listeners
-    }
-    // Add an initial section if the container is empty
-    if (globalContainer.children.length === 0) {
-        addSection();
     }
 }
