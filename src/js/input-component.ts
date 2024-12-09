@@ -1,42 +1,55 @@
-function createComponent(template) {
-  return template.content.cloneNode(true).firstElementChild;
+function createComponent(template: HTMLTemplateElement): HTMLElement {
+  return template.content.cloneNode(true).firstElementChild as HTMLElement;
 }
 
-export function assignComponent(element) {
-  const template = element.querySelector('template.app-tmpl-input');
-  const container = template.parentElement;
+export function assignComponent(element: HTMLElement): void {
+  const template = element.querySelector('template.app-tmpl-input') as HTMLTemplateElement;
+  const container = template.parentElement as HTMLElement;
 
-  const updateInputComponents = () => {
+  const updateInputComponents = (): void => {
     [...container.querySelectorAll('.app-cmp-input')].forEach(
       (component, index, inputComponents) => {
         [...component.querySelectorAll('.app-elem-title-no')].forEach(
-          (titleNo) => (titleNo.textContent = `${index + 1}`),
+          (titleNo) => {
+            if (titleNo instanceof HTMLElement) {
+              titleNo.textContent = `${index + 1}`;
+            }
+          },
         );
 
         [...component.querySelectorAll('.app-cmd-remove-input')].forEach(
-          (cmdRemoveInput) =>
-            (cmdRemoveInput.disabled = inputComponents.length === 1),
+          (cmdRemoveInput) => {
+            if (cmdRemoveInput instanceof HTMLButtonElement) {
+              cmdRemoveInput.disabled = inputComponents.length === 1;
+            }
+          },
         );
       },
     );
   };
 
-  const calculateResult = () => {
-    const result = [...container.querySelectorAll('.app-cmp-input')].map(
-      (component) =>
-        component.querySelector('input[type="number"].app-elem-input'),
-    ).reduce((result, element) => result + element.valueAsNumber, 0);
+  const calculateResult = (): void => {
+    const result = [...container.querySelectorAll('.app-cmp-input')]
+      .map((component) => 
+        component.querySelector('input[type="number"].app-elem-input') as HTMLInputElement
+      )
+      .reduce((sum, element) => sum + (element?.valueAsNumber || 0), 0);
 
     [...element.querySelectorAll('output.app-elem-result')].forEach(
-      (output) => (output.value = `${result.toLocaleString()}`),
+      (output) => {
+        if (output instanceof HTMLOutputElement) {
+          output.value = `${result.toLocaleString()}`;
+        }
+      },
     );
   };
 
-  const appendInputComponent = () => {
+  const appendInputComponent = (): void => {
     const inputComponent = createComponent(template);
 
     inputComponent.addEventListener('click', (ev) => {
-      if (ev.target?.matches('.app-cmd-remove-input')) {
+      const target = ev.target as HTMLElement;
+      if (target?.matches('.app-cmd-remove-input')) {
         inputComponent.remove();
         updateInputComponents();
         calculateResult();
@@ -49,13 +62,15 @@ export function assignComponent(element) {
   };
 
   element.addEventListener('click', (ev) => {
-    if (ev.target?.matches('.app-cmd-add-input')) {
+    const target = ev.target as HTMLElement;
+    if (target?.matches('.app-cmd-add-input')) {
       appendInputComponent();
     }
   });
 
   container.addEventListener('change', (ev) => {
-    if (ev.target?.matches('input[type="number"].app-elem-input')) {
+    const target = ev.target as HTMLInputElement;
+    if (target?.matches('input[type="number"].app-elem-input')) {
       calculateResult();
     }
   });

@@ -18,22 +18,23 @@
       <!-- Template ของแต่ละ Section -->
       <template class="app-tmpl-section">
         <section class="app-cmp-section">
-          <div>
-            <span class="section-number">Section 1</span>
-          </div>
+
           <div>
             <button type="button" class="app-cl-cmd app-cmd-add-input app-cl-primary">
               <i class="material-symbols-outlined">add</i> Add Input
             </button>
+            <span class="section-number">Section 1</span>
+            <button type="button" class="app-cl-cmd app-cmd-remove-section app-cl-warn">Remove Section</button>
           </div>
 
           <div class="app-cmp-inputs-list">
             <template class="app-tmpl-input">
               <div class="app-cmp-input">
                 <label>
-                  <b class="app-elem-title">Number <span class="app-elem-title-no"></span></b>
+                  <b class="app-elem-title">Number <span class="app-elem-title-no"></span> :: </b>
                   <input type="number" value="0" class="app-elem-input" />
                 </label>
+                 
                 <button type="button" class="app-cl-cmd app-cmd-remove-input app-cl-warn">X</button>
               </div>
             </template>
@@ -46,7 +47,6 @@
             </label>
           </div>
 
-          <button type="button" class="app-cl-cmd app-cmd-remove-section app-cl-warn">Remove Section</button>
         </section>
       </template>
     </div>
